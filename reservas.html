@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="miApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva de Asientos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+    <script src="js/app.js"></script>
+    <script src="js/services/authService.js"></script> 
+    <script src="js/controllers/reservasController.js"></script> 
+    <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+</head>
+<body ng-controller="ReservasController">
+
+    <script>
+        if (!localStorage.getItem('userToken')) {
+            alert('Debes iniciar sesión para ver esta página.');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <div class="mb-3">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <img src="img/logo.png" class="logo" alt="">
+                <h3>
+                    <a class="navbar-brand" href="index.html">Fly With Steph</a>
+                </h3>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="reservas.html">Reservar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="mis-reservas.html">Mis Reservas</a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-primary" href="register.html">Registrarse</a>
+                    <a class="btn btn-primary" href="login.html">Iniciar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="mb-3 container">
+        <h1>Reservar Asientos</h1> 
+        <hr>
+        <br>
+        <div class="mapa-asientos row">
+            
+                <div class="resumen-reserva col">
+                    <h3>Detalles de reserva</h3>
+                    <div ng-if="asientosSeleccionados.length === 0">
+                        <p>Haz clic en un asiento para seleccionarlo.</p>
+                    </div>
+                    <div ng-if="asientosSeleccionados.length > 0">
+                        <div ng-repeat="asiento in asientosSeleccionados" style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                            <strong>Asiento {{asiento.id_asiento}}</strong> <br>
+                            <strong>Clase: </strong>{{asiento.categoria}}<br>
+                            <strong>Precio: </strong>Q{{asiento.precio}}<br>
+                            <label>
+                                <input type="checkbox" ng-model="asiento.maleta"> ¿Desea agregar maleta?
+                            </label>
+                        </div>
+                        
+                        <h3>Total: Q{{calcularTotal()}}</h3>
+                        <button ng-click="confirmarReserva()" class="btn">
+                            Confirmar Reserva
+                        </button>
+                        <div ng-if="errorReserva" style="color: red; margin-top: 10px;">{{errorReserva}}</div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Clase Negocios</h3>
+                            <div ng-repeat="filaNombre in filasNegociosDesc" class="fila">
+                                <div ng-repeat="asiento in filas.negocios[filaNombre]" class="asiento" 
+                                    ng-class="{'ocupado': asiento.estado === 'Ocupado', 'seleccionado': asiento.seleccionado}"
+                                    ng-click="seleccionarAsiento(asiento)">
+                                    {{asiento.id_asiento}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Clase Económica</h3>
+                            <div ng-repeat="filaNombre in filasEconomicaDesc" class="fila">
+                                <div ng-repeat="asiento in filas.economica[filaNombre]" class="asiento"
+                                    ng-class="{'ocupado': asiento.estado === 'Ocupado', 'seleccionado': asiento.seleccionado}"
+                                    ng-click="seleccionarAsiento(asiento)">
+                                    {{asiento.id_asiento}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+    
+    
+
+
+</body>
+</html>

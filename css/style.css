@@ -1,0 +1,100 @@
+.navbar{
+    padding: 10px;
+    background-color: LightPink;
+    color: white !important;
+}
+
+.btn{
+    background-color: palevioletred;
+    color: white;
+    border-color: palevioletred;
+}
+
+.navbar .btn{
+    margin-left: 10px;
+}
+
+.asiento {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    user-select: none;
+}
+
+.asiento.ocupado {
+    background-color: MediumVioletRed;
+    color: white;
+    cursor: not-allowed;
+    border-color: PaleVioletRed;
+}
+
+.asiento.seleccionado {
+    background-color: #AF96E3;
+    color: white;
+    border-color: #af96e3;
+}
+
+.fila {
+    margin-bottom: 10px;
+}
+
+.mapa-asientos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.resumen-reserva .btn{
+    background-color: palevioletred;
+    color: white;
+    border-color: palevioletred;
+    width: 100%; 
+    padding: 10px; 
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.logo{
+    max-height: 50px;
+}
+
+
+
+@media (max-width: 900px) { 
+    .navbar{
+        padding: 10px;
+        background-color: rgb(238, 182, 255);
+        color: white !important;
+    }
+    .btn{
+        background-color: plum;
+        border-color: rgb(180, 92, 180);
+    }
+    .navbar .btn{
+        margin-left: 0px;
+    }
+    
+}
+
+@media (max-width: 600px) { 
+    .navbar{
+        padding: 10px;
+        background-color:lightblue; 
+        color: white !important;
+    }
+    .btn{
+        background-color: lightsteelblue;
+        border-color: rgb(123, 167, 226);
+    }
+    .navbar .btn{
+        margin-left: 0px;
+    }
+    
+}

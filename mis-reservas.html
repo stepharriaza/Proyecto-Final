@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="miApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva de Asientos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+    <script src="js/app.js"></script>
+    <script src="js/services/authService.js"></script> 
+    <script src="js/controllers/misReservasController.js"></script> 
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+</head>
+<body ng-controller="MisReservasController">
+
+    <div class="mb-3">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <img src="img/logo.png" class="logo" alt="">
+                <h3>
+                    <a class="navbar-brand" href="index.html">Fly With Steph</a>
+                </h3>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="reservas.html">Reservar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="mis-reservas.html">Mis reservas</a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary" ng-click="logout()">Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="mb-3 container">
+    
+    <div ng-if="vistaActual === 'listado'">
+        <h1>Mis Reservas Actuales</h1>
+        <hr><br>
+        <div ng-if="misReservas.length === 0">
+            <p>Aún no tienes asientos reservados.</p>
+        </div>
+        <div ng-if="misReservas.length > 0">
+            <p>Haz clic en un asiento para modificar tu reserva:</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Asiento</th>
+                        <th>Precio Pagado</th>
+                        <th>Reserva ID</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="res in misReservas">
+                        <td><strong>{{ res.id_asiento }}</strong></td>
+                        <td>Q{{ res.precio }}</td>
+                        <td>{{ res.id_reserva }}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" ng-click="iniciarModificacion(res)">
+                                Modificar
+                            </button>
+                            <button class="btn btn-danger btn-sm" ng-click="cancelarAsiento(res)" style="margin-left: 5px;">
+                                Cancelar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <div ng-if="vistaActual === 'modificar'">
+        <h1>Modificar Reserva</h1>
+        <p>
+            Estás modificando el asiento: <strong>{{ asientoAModificar.id_asiento }}</strong>
+        </p>
+        <p>
+            (Recuerda que solo puedes cambiarlo por un asiento de la misma clase y que esté disponible).
+        </p>
+
+        <form ng-submit="confirmarModificacion()">
+            <div class="mb-3">
+                <label for="nuevoAsientoInput" class="form-label">
+                    Ingresa el ID del nuevo asiento (Ej: A5, C10):
+                </label>
+                    <input type="text" 
+                       class="form-control" 
+                       id="nuevoAsientoInput" 
+                       ng-model="formData.nuevoAsientoId"
+                       style="text-transform: uppercase;"
+                    required>
+                </div>
+            
+                <div ng-if="errorModificacion" class="alert alert-danger">
+                    {{ errorModificacion }}
+                </div>
+                <div ng-if="exitoModificacion" class="alert alert-success">
+                    {{ exitoModificacion }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Confirmar Modificación</button>
+                <button type="button" class="btn btn-secondary" ng-click="cancelarModificacion()">
+                    Cancelar
+                </button>
+            </form>
+        </div> 
+    </div> 
+    
+</body>
+</html>
